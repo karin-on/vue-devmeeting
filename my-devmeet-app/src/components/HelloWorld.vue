@@ -15,7 +15,7 @@
       <input type="text" id="task-name" name="task">
       <button v-on:click="addTask()">Add task</button>        <!--zdarzenia: v-on: LUB @ np. @click.prevent (=preventDefault)-->
       <button @click="removeLast()">Remove last item</button>     <!--przy wywołaniu funkcji możemy pominąć ()-->
-    <!--</div>-->
+    <!--</div>--> 
 
   </div>
 </template>
