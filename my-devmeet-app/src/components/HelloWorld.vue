@@ -6,6 +6,7 @@
         <!-- 2. Then, we're using built-in v-for directive to iterate over tasks -->
         <li v-for="(p, i) in tasks">
           <span>{{ p.name }}</span>
+          <span>{{ p.quantity }}</span>
           <button v-on:click="removeTask(i)">usuń</button>    <!--jako parametr funkcji można przekazać też event-->
         </li>
       </ul>
@@ -15,11 +16,22 @@
 
 
       <form @submit.prevent="onSubmit()">
-          <input type="text" id="task-name" name="task" v-model="newTask.name" v-validate="'required|min:3'">
-          <button>Add task</button>        <!--zdarzenia: v-on: LUB @ np. @click.prevent (=preventDefault)-->
-          <!--<button @click="removeLast()">Remove last item</button>     &lt;!&ndash;przy wywołaniu funkcji możemy pominąć ()&ndash;&gt;-->
-          <div v-show="errors.has('task')">
+
+          <input type="text" id="task-name"
+                 name="task"
+                 v-model="newTask.name"
+                 v-validate="'required|min:3'">
+
+          <input type="text" id="task-quantity"
+                 name="quantity"
+                 v-model="newTask.quantity"
+                 v-validate="'required|min_value:1'">
+
+          <button>Add task</button>
+
+          <div v-show="errors.has('task') || errors.has('quantity')">
               {{ errors.first('task') }}
+              {{ errors.first('quantity') }}
           </div>
       </form>
 
@@ -40,7 +52,8 @@
                 name: 'Pizza'
             }],
               newTask: {
-                  name: ''
+                  name: '',
+                  quantity: ''
               }
           }
       },
@@ -59,6 +72,7 @@
                       ...this.newTask
                   });
                   this.newTask.name = '';
+                  this.newTask.quantity = '';
                   // 4/ and reset validation state after adding a product
                   this.$validator.reset();
               });
