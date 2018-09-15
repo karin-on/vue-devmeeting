@@ -12,10 +12,16 @@
       <!-- 5. v-if can be helpful with conditional statements -->
       <p v-if="!tasks.length">No tasks!</p>
       <!-- 6. v-on adds an handler and :click is the name of the event, then goes the function to invoke -->
-      <input type="text" id="task-name" name="task">
-      <button v-on:click="addTask()">Add task</button>        <!--zdarzenia: v-on: LUB @ np. @click.prevent (=preventDefault)-->
-      <button @click="removeLast()">Remove last item</button>     <!--przy wywołaniu funkcji możemy pominąć ()-->
-    <!--</div>--> 
+
+
+      <form @submit.prevent="onSubmit()">
+          <input type="text" id="task-name" name="task" v-model="newTask.name" v-validate="'required|min:3'">
+          <button>Add task</button>        <!--zdarzenia: v-on: LUB @ np. @click.prevent (=preventDefault)-->
+          <!--<button @click="removeLast()">Remove last item</button>     &lt;!&ndash;przy wywołaniu funkcji możemy pominąć ()&ndash;&gt;-->
+          <div v-show="errors.has('task')">
+              {{ errors.first('task') }}
+          </div>
+      </form>
 
   </div>
 </template>
@@ -32,24 +38,45 @@
             }, {
                 id: 1,
                 name: 'Pizza'
-            }]
+            }],
+              newTask: {
+                  name: ''
+              }
           }
       },
       // 3. To get some events from user we can define a method in 'methods'
       methods: {
           //3/ 4. The important thing is to use function with execution-based context
 
-          addTask() {
-              let taskName = document.querySelector('#task-name');
-              this.tasks.push({id: 2, name: taskName.value});
-              taskName.value = '';
+          onSubmit() {
+              // 3. On the JS side we need to use yet another injected value called $validator to validate all the fields
+              this.$validator.validateAll().then(result => {
+                  if (!result) {
+                      return;
+                  }
+                  this.tasks.push({
+                      // id: uuid(),
+                      ...this.newTask
+                  });
+                  this.newTask.name = '';
+                  // 4/ and reset validation state after adding a product
+                  this.$validator.reset();
+              });
           },
-          removeTask(i) {
-              this.tasks.splice(i, 1);
-          },
-          removeLast() {
-              this.tasks.pop();
-          }
+
+
+
+          // addTask() {
+          //     let taskName = document.querySelector('#task-name');
+          //     this.tasks.push({id: 2, name: taskName.value});
+          //     taskName.value = '';
+          // },
+          // removeTask(i) {
+          //     this.tasks.splice(i, 1);
+          // },
+          // removeLast() {
+          //     this.tasks.pop();
+          // }
       }
   }
 
