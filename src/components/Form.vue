@@ -1,9 +1,7 @@
 <template>
   <div>
 
-
       <form @submit.prevent="onSubmit()">
-
           <input type="text" id="product-name"
                  name="product"
                  v-model="newProduct.name"

@@ -5,11 +5,9 @@
       <ul>
 
           <ProductItem :products="products"/>
-          
 
       </ul>
       <p v-if="!products.length">No products!</p>
-
 
   </div>
 </template>
@@ -28,6 +26,5 @@
             }
         }
     }
-
 </script>
 

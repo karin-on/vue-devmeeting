@@ -19,16 +19,9 @@
         ProductList,
         Form
     },
-
       data() {
         return {
-            products: [
-                {
-                    // id: uuid(),
-                    name: 'test',
-                    quantity: 3
-                }
-            ]
+            products: []
         }
       },
       methods: {
