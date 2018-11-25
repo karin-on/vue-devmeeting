@@ -1,4 +1,4 @@
-# Vue.js DevMeeting workshop - Warsaw, 15 Sept 2018
+# Vue.js - DevMeetings workshop - Warsaw, 15 Sept 2018
 
 ## Project setup
 ```
